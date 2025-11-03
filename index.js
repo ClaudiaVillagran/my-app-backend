@@ -19,7 +19,10 @@ app.use(express.json());
 
 const RutaProducto = require('./routes/ProductRoute')
 
+const RutaUsuario = require('./routes/UserRoute')
+
 app.use('/api/producto', RutaProducto)
+app.use('/api/usuario', RutaUsuario)
 
 app.listen(process.env.PORT,() =>{
   console.log('La aplicacion esta corriendo en el puerto:', process.env.PORT);
