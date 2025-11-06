@@ -49,8 +49,19 @@ async function EliminarProducto(req, res) {
 async function EditarProducto(req, res) {
   try {
     const { id } = req.params;
-    const { data } = req.body;
 
+
+    const datacompleta = req.body;
+    const data = req.body.data;
+    const nombre = req.body.data.nombre
+
+    // const {data} = req.body;
+
+    console.log("datacompleta",datacompleta);
+    
+    console.log("data",data);
+    
+    console.log("nombre",nombre);
     // id= 'ndshsbw1213'
     // data= {
     //   nombre:'zapatilla',
@@ -62,7 +73,9 @@ async function EditarProducto(req, res) {
     //   'descripcion': 'para correr'
     // }
 
-    const productoEditado = await productModel.findByIdAndUpdate(id, data);
+    const productoEditado = await productModel.findByIdAndUpdate(id, data,{
+      new:true
+    });
 
     // editarProducto ={
     //   nombre: 'zapatilla',
@@ -77,15 +90,66 @@ async function EditarProducto(req, res) {
       });
     }
   } catch (error) {
-     console.log("503, error al eliminar el producto", productoId);
+    console.log("503, error al eliminar el producto", productoId);
   }
 }
 
 // traerTodosLosProductos
 
+async function TraerProductos(req, res) {
+  try {
+    const productos = await productModel.find();
+    console.log(productos);
+
+    if (productos.length == 0) {
+      res.status(200).json({
+        status: "success",
+        message: "No existen productos, crea uno",
+      });
+    }
+
+    if (productos) {
+      // productos no es undefined
+      res.status(200).json({
+        status: "success",
+        message: "Productos",
+        productos,
+      });
+    }
+  } catch (error) {
+    res.status(503).json({
+      status: "error",
+      message: "Error en el servidor",
+    });
+  }
+}
+
 // traerUnProductoEspecifico
+
+async function traerUnProductoEspecifico (req, res) {
+  const {id} = req.params;
+
+  try {
+    const productoAMostrar = await productModel.findById(id);
+
+    if (productoAMostrar) {
+       res.status(200).json({
+        status: "success",
+        message: "Producto",
+        producto,
+      });
+    }
+
+  } catch (error) {
+    
+  }
+
+
+}
 
 module.exports = {
   CreateProduct,
   EliminarProducto,
+  TraerProductos,
+  EditarProducto
 };
