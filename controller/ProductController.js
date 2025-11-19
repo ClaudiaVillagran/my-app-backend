@@ -97,6 +97,7 @@ async function EditarProducto(req, res) {
 // traerTodosLosProductos
 
 async function TraerProductos(req, res) {
+  console.log('req', req);
   try {
     const productos = await productModel.find();
     console.log(productos);

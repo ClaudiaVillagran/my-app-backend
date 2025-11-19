@@ -13,8 +13,9 @@ mongoose.connect(process.env.DB, {}).then(() => {
 
 const app = express();
 
-// app.use(cors({ origin: '*'}));
 app.use(express.json());
+app.use(cors());
+// app.use(cors({ origin: '*'}));
 // app.options('*', cors());
 
 const RutaProducto = require('./routes/ProductRoute')
